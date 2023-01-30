@@ -1,17 +1,25 @@
 import { useState } from 'react';
 
 const Input = ({ titleChange }) => {
-	const changeTitle = () => {
-		const value = document.getElementById('newTitulo');
-		if (value === null) titleChange(null);
-		titleChange(value);
+
+	const [message, setMessage] = useState('')
+
+	const handleChange = () => {
+		// eslint-disable-next-line no-restricted-globals
+		setMessage(event.target.value)
 	};
+
+	const handleClick=()=>{
+		
+	titleChange(message)
+
+	}
 
 	return (
 		<div>
 			<p>Title change:</p>
-			<input id="newTitulo"></input>
-			<button onClick={() => changeTitle()}>Cambiar</button>
+			<input onChange={handleChange}></input>
+			<button onClick={() => handleClick()}>Cambiar</button>
 		</div>
 	);
 };
