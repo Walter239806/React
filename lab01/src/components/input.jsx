@@ -1,3 +1,6 @@
+import { faBolt } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import PropTypes from "prop-types";
 import { useState } from 'react';
 
 const Input = ({ titleChange }) => {
@@ -12,6 +15,7 @@ const Input = ({ titleChange }) => {
 	const handleClick=()=>{
 		
 	titleChange(message)
+	
 
 	}
 
@@ -19,9 +23,17 @@ const Input = ({ titleChange }) => {
 		<div>
 			<p>Title change:</p>
 			<input onChange={handleChange}></input>
-			<button onClick={() => handleClick()}>Cambiar</button>
+			{
+				message && <button onClick={() => handleClick()}>Cambiar<FontAwesomeIcon icon={faBolt}></FontAwesomeIcon></button>
+
+			}
+			
 		</div>
 	);
 };
+
+Input.propTypes={
+	titleChange: PropTypes.func.isRequired
+}
 
 export default Input;

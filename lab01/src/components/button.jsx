@@ -1,3 +1,4 @@
+import { PropTypes } from "prop-types";
 import { useState } from 'react';
 
 const ButtonCreate = ({ title, onCountChange, count }) => {
@@ -10,4 +11,15 @@ const ButtonCreate = ({ title, onCountChange, count }) => {
 	return <button onClick={() => onHandleChange()}>{title}</button>;
 };
 
+ButtonCreate.propTypes = {
+
+	title: PropTypes.string,
+	onCountChange: PropTypes.func,
+	count: PropTypes.number,
+
+}
+
+
+
 export default ButtonCreate;
+
