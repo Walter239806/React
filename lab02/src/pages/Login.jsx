@@ -4,11 +4,14 @@ import { useNavigate } from 'react-router-dom';
 import Form from 'react-bootstrap/Form';
 import { useState } from 'react';
 import { useAuth } from '../context/Session';
+import react
 
 export default function Page() {
 	const [validated, setValidated] = useState();
 	const [email, setEmail] = useState('');
 	const [password, setPassword] = useState('');
+	const [onError, setOnError] = useState('');
+	const [errorMessage, setErrorMessage] = useState('');
 	const navigate = useNavigate();
 	const { session, signIn } = useAuth();
 
@@ -28,6 +31,10 @@ export default function Page() {
 		signIn({
 			email,
 			password,
+		}).catch((error) => {
+			console.log('error', error);
+			setOnError(true);
+			setErrorMessage(error.toString());
 		});
 	};
 
@@ -78,6 +85,7 @@ export default function Page() {
 						</Button>
 					</Form>
 				</Card.Body>
+				<Card.Footer>{onError && errorMessage}</Card.Footer>
 			</Card>
 		</>
 	);
