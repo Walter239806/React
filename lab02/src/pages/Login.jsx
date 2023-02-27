@@ -2,20 +2,69 @@ import Button from 'react-bootstrap/Button';
 import Card from 'react-bootstrap/Card';
 import { useNavigate } from 'react-router-dom';
 import Form from 'react-bootstrap/Form';
+import { useState } from 'react';
+import { useAuth } from '../context/Session';
 
 export default function Page() {
+	const [validated, setValidated] = useState();
+	const [email, setEmail] = useState('');
+	const [password, setPassword] = useState('');
 	const navigate = useNavigate();
+	const { session, signIn } = useAuth();
+
+	const login = (e) => {
+		e.preventDefault();
+
+		//Validations
+		const form = e.currentTarget;
+		if (form.checkValidity() === false) {
+			e.stopPropagation();
+			return;
+		}
+
+		setValidated(true);
+
+		//API call
+		signIn({
+			email,
+			password,
+		});
+	};
+
+	const handleChange = (e) => {
+		const { name, value } = e.target;
+		// console.log(name);
+		// console.log(value);
+
+		if (name === 'email') setEmail(value);
+		if (name === 'password') setPassword(value);
+	};
+
 	return (
 		<>
 			<Card className="m-auto" style={{ width: '20rem' }}>
 				<Card.Body>
 					<Card.Title>Login</Card.Title>
-					<Form>
+					<Form onSubmit={login} noValidate validated={validated}>
 						<Form.Group className="mb-3" controlId="formBasicEmail">
 							<Form.Label>Email</Form.Label>
-							<Form.Control type="email" placeholder="Enter Email" />
+							<Form.Control
+								required
+								name="email"
+								type="email"
+								placeholder="Enter Email"
+								value={email}
+								onChange={handleChange}
+							/>
 							<Form.Label>Password</Form.Label>
-							<Form.Control type="password" placeholder="Enter Password" />
+							<Form.Control
+								required
+								name="password"
+								type="password"
+								placeholder="Enter Password"
+								value={password}
+								onChange={handleChange}
+							/>
 						</Form.Group>
 						<Button variant="primary" type="submit">
 							Submit
