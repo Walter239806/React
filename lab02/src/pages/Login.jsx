@@ -4,16 +4,14 @@ import { useNavigate } from 'react-router-dom';
 import Form from 'react-bootstrap/Form';
 import { useState } from 'react';
 import { useAuth } from '../context/Session';
-import react
+import toast from 'react-hot-toast';
 
 export default function Page() {
 	const [validated, setValidated] = useState();
-	const [email, setEmail] = useState('');
-	const [password, setPassword] = useState('');
-	const [onError, setOnError] = useState('');
-	const [errorMessage, setErrorMessage] = useState('');
+	const [email, setEmail] = useState('a@test1.com');
+	const [password, setPassword] = useState('Welcome123456!');
 	const navigate = useNavigate();
-	const { session, signIn } = useAuth();
+	const { session, signIn, onError, errorMessage } = useAuth();
 
 	const login = (e) => {
 		e.preventDefault();
@@ -31,11 +29,13 @@ export default function Page() {
 		signIn({
 			email,
 			password,
-		}).catch((error) => {
-			console.log('error', error);
-			setOnError(true);
-			setErrorMessage(error.toString());
 		});
+		// .catch((error) => {
+		// 	// toast.error(error.toString());
+		// 	console.log('error', error);
+		// 	setOnError(true);
+		// 	setErrorMessage(error.toString());
+		// });
 	};
 
 	const handleChange = (e) => {

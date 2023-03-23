@@ -1,4 +1,7 @@
-import { createContext, useState, useContext } from 'react';
+import { createContext, useState, useContext, useEffect } from 'react';
+import toast from 'react-hot-toast';
+import { useNavigate } from 'react-router-dom';
+import jwt_decode from 'jwt-decode';
 
 const authContext = createContext({});
 
@@ -14,8 +17,15 @@ export const ProvideAuth = ({ children }) => {
 
 const useProvideAuth = () => {
 	const [session, setSession] = useState(null);
-	const signIn = async ({ email, password }) => {
-		console.log('Sing in', email, password);
+	const [onError, setOnError] = useState('');
+	const [errorMessage, setErrorMessage] = useState('');
+	const navigate = useNavigate();
+
+	useEffect(() => {
+		getSession();
+	}, []);
+
+	const login = async ({ email, password }, navigate) => {
 		const data = await fetch('http://20.228.195.178:3001/user/JWT', {
 			method: 'POST',
 			headers: { 'Content-Type': 'application/json' },
@@ -26,11 +36,50 @@ const useProvideAuth = () => {
 		}).then((res) => {
 			return res.json();
 		});
-		console.log(data);
-
 		if (data.error) throw Error(data.error);
-
 		localStorage.setItem('token', JSON.stringify(data.accessToken));
+
+		//set session
+		getSession();
+
+		navigate('/admin');
+
+		return true;
+	};
+
+	const getSession = () => {
+		const token = localStorage.getItem('token');
+
+		if (token) {
+			const data = jwt_decode(token);
+			console.log('dataaaa', data);
+
+			const currentTime = new Date().getTime() / 1000;
+			if (parseInt(currentTime) <= parseInt(data.exp))
+				setSession({
+					username: data.username,
+					state: true,
+					_id: data._id,
+				});
+			else {
+				localStorage.removeItem('token');
+				navigate('/login');
+			}
+		}
+
+		//refresh token ---> INVESTIGAR
+	};
+
+	const signIn = ({ email, password }) => {
+		toast.promise(login({ email, password }, navigate), {
+			loading: 'Logging...',
+			success: 'Welcome 😍',
+			error: (error) => {
+				setErrorMessage(error.toString());
+				setOnError(true);
+				return <b>{error.toString()}</b>;
+			},
+		});
 	};
 
 	const create = async ({ email, password, fullname }) => {
@@ -45,8 +94,8 @@ const useProvideAuth = () => {
 		}).then((res) => {
 			return res.json();
 		});
-		console.log(data);
+		console.log('DAAATAAA', data);
 	};
 
-	return { session, signIn, create };
+	return { session, signIn, create, onError, errorMessage };
 };
