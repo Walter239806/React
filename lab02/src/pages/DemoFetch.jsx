@@ -2,19 +2,30 @@ import { Fragment, useEffect, useState } from 'react';
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 import ListGroup from 'react-bootstrap/ListGroup';
+import { useFetch } from '../hooks/Fetch';
 
 const App = () => {
-	const [data, setData] = useState([]);
+	// const [data, setData] = useState([]);
 	const [query, setQuery] = useState('');
+	// const [isLoading, setIsLoading] = useState(false);
+	// const [isError, setIsError] = useState(false);
 	// const [url, setUrl] = useState('');
+	const { data, isLoading, isError, runFetch } = useFetch();
 
-	const search = async () => {
-		const url = `https://hn.algolia.com/api/v1/search?query=${query}`;
-		const result = await fetch(url).then((res) => res.json());
+	const search = () => {
+		runFetch(`https://hn.algolia.com/api/v1/search?query=${query}`);
+		// setIsLoading(true);
+		// setIsError(false);
 
-		setData(result.hits);
+		// try {
+		// 	const result = await fetch(url).then((res) => res.json());
+		// 	setData(result.hits);
+		// } catch (error) {
+		// 	setIsError(true);
+		// 	console.error('error', error);
+		// }
 
-		console.log('result', result);
+		// setIsLoading(false);
 	};
 
 	const List = () =>
@@ -29,6 +40,7 @@ const App = () => {
 	//TODO: mejorar con boostrap
 	return (
 		<Fragment>
+			{isError && <div>Ha ocurrido un error</div>}
 			<Form>
 				<Form.Group className="mb-3">
 					<Form.Label>Search</Form.Label>
@@ -42,11 +54,19 @@ const App = () => {
 				<Button variant="primary" type="button" onClick={() => search()}>
 					search
 				</Button>
-				<Form.Group>
-					<ListGroup>
-						<List />
-					</ListGroup>
-				</Form.Group>
+				{data === null ? (
+					<div></div>
+				) : (
+					<Form.Group>
+						{isLoading ? (
+							<div>Loading...</div>
+						) : (
+							<ListGroup>
+								<List />
+							</ListGroup>
+						)}
+					</Form.Group>
+				)}
 			</Form>
 		</Fragment>
 	);
