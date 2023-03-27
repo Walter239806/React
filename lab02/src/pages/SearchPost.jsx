@@ -4,25 +4,27 @@ import InputGroup from 'react-bootstrap/InputGroup';
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 import ListGroup from 'react-bootstrap/ListGroup';
+import { useFetch } from '../hooks/FetchPost';
 
 const App = () => {
-	const [value, setValue] = useState({});
 	const [query, setQuery] = useState('');
+	const { data, isLoading, isError, runFetch } = useFetch();
 
 	const search = async () => {
 		const url = `http://20.228.195.178:3001/post/readByID`;
-		const result = await fetch(url, {
-			method: 'POST',
-			headers: { 'Content-Type': 'application/json' },
-			body: JSON.stringify({
-				_id: query,
-			}),
-		}).then((res) => res.json());
+		// const result = await fetch(url, {
+		// 	method: 'POST',
+		// 	headers: { 'Content-Type': 'application/json' },
+		// 	body: JSON.stringify({
+		// 		_id: query,
+		// 	}),
+		// }).then((res) => res.json());
 
-		setValue(result);
+		// setValue(result);
 
-		console.log('result', result);
-		console.log(value);
+		// console.log('result', result);
+		// console.log(value);
+		runFetch(url, query);
 	};
 
 	const Reply = () => {
@@ -39,11 +41,11 @@ const App = () => {
 		return (
 			<ListGroup.Item>
 				<Card>
-					<Card.Title>{value.title}</Card.Title>
+					<Card.Title>{data.title}</Card.Title>
 					<Card.Subtitle className="mb-2 text-muted">
-						{value.author}
+						{data.author}
 					</Card.Subtitle>
-					<Card.Body>{value.body}</Card.Body>
+					<Card.Body>{data.body}</Card.Body>
 				</Card>
 			</ListGroup.Item>
 		);
@@ -70,9 +72,11 @@ const App = () => {
 							aria-describedby="basic-addon3"
 						/>
 					</InputGroup>
+					{data === [] ? (<div>holaaaa</div>) : (
 					<ListGroup>
 						<Reply />
 					</ListGroup>
+					)}
 				</Card.Body>
 			</Card>
 		</>
