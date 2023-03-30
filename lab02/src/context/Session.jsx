@@ -60,6 +60,7 @@ const useProvideAuth = () => {
 					username: data.username,
 					state: true,
 					_id: data._id,
+					token,
 				});
 			else {
 				localStorage.removeItem('token');

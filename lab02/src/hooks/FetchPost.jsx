@@ -15,7 +15,10 @@ export const useFetch = (initialData = []) => {
 			try {
 				const result = await fetch(url, {
 					method: 'POST',
-					headers: { 'Content-Type': 'application/json' },
+					headers: {
+						'Content-Type': 'application/json',
+						Authorization: `Bearer ${session.token}`,
+					},
 					body: JSON.stringify({
 						_id: query,
 					}),

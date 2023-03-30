@@ -14,7 +14,14 @@ export const useFetch = (initialData = []) => {
 			setIsLoading(true);
 			setIsError(false);
 			try {
-				const result = await fetch(url).then((res) => res.json());
+				const result = await fetch(url, {
+					method: 'GET',
+					headers: {
+						'Content-Type': 'application/json',
+						Authorization: `Bearer ${session.token}`,
+					}
+				}).then((res) => res.json());
+				console.log('Bearer  😊😊😊', result);
 				setData(result);
 			} catch (error) {
 				setIsError(true);
