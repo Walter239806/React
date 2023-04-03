@@ -64,6 +64,17 @@ const DataTable = ({ columns, data, rowClick }) => {
 							{headerGroup.headers.map((column) => (
 								<th {...column.getHeaderProps(column.getSortByToggleProps())}>
 									{column.render('Header')}
+									<span>
+										{column.isSorted ? (
+											column.isSortedDesc ? (
+												<i className="fa fa-arrow-up ml-1"></i>
+											) : (
+												<i className="fa fa-arrow-down ml-1"></i>
+											)
+										) : (
+											''
+										)}
+									</span>
 								</th>
 							))}
 						</tr>
