@@ -14,7 +14,7 @@ export default function Page() {
 	const { session } = useAuth();
 	const { data, isLoading, isError, runFetch } = useFetch();
 
-	const rowClick = (row) => console.log('Hola');
+	const rowClick = (row) => console.log('Hola', row);
 
 	const columns = useMemo(
 		() => [

@@ -37,7 +37,7 @@ const useProvideAuth = () => {
 			return res.json();
 		});
 		if (data.error) throw Error(data.error);
-		localStorage.setItem('token', JSON.stringify(data.accessToken));
+		localStorage.setItem('token', data.accessToken);
 
 		//set session
 		getSession();
