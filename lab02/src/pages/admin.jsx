@@ -1,11 +1,10 @@
 import React, { useEffect, useMemo, useState } from 'react';
-import Button from 'react-bootstrap/Button';
-import Card from 'react-bootstrap/Card';
 import Form from 'react-bootstrap/Form';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/Session';
 import { useFetch } from '../hooks/Fetch';
 import DataTable from '../components/dataTable';
+import Alert from '../components/loginAlert';
 
 export default function Page() {
 	const navigate = useNavigate();
@@ -14,7 +13,9 @@ export default function Page() {
 	const { data, isLoading, isError, runFetch } = useFetch();
 	const [datafiltered, setDataFiltered] = useState([]);
 
-	const rowClick = (row) => console.log('Hola', row);
+	const rowClick = (row) => {
+		navigate(`/item/id:${row}`);
+	};
 
 	const columns = useMemo(
 		() => [
@@ -73,13 +74,7 @@ export default function Page() {
 					/>
 				</>
 			) : (
-				<Card className="m-auto" style={{ width: '20rem' }}>
-					<Card.Body>
-						<Card.Title>No autorizado 😁</Card.Title>
-						<Card.Text>Debe registrarse para acceder a esta pagina</Card.Text>
-						<Button onClick={() => navigate('/login')}>Login</Button>
-					</Card.Body>
-				</Card>
+				<Alert />
 			)}
 		</>
 	);

@@ -14,6 +14,7 @@ import { Toaster } from 'react-hot-toast';
 import DemoFetch from './pages/DemoFetch';
 import SearchPost from './pages/SearchPost';
 import DemoTable from './pages/DemoTable';
+import Item from './pages/Item';
 
 ReactDOM.createRoot(document.getElementById('root')).render(
 	<BrowserRouter>
@@ -28,6 +29,7 @@ ReactDOM.createRoot(document.getElementById('root')).render(
 					<Route path="demoFetch" element={<DemoFetch />}></Route>
 					<Route path="SearchPost" element={<SearchPost />}></Route>
 					<Route path="DemoTable" element={<DemoTable />}></Route>
+					<Route path="Item/:id" element={<Item />}></Route>
 
 					<Route
 						path="*"
