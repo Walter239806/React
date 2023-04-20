@@ -15,33 +15,38 @@ import DemoFetch from './pages/DemoFetch';
 import SearchPost from './pages/SearchPost';
 import DemoTable from './pages/DemoTable';
 import Item from './pages/Item';
+import { store } from './store/redux-index';
+import { Provider } from 'react-redux';
+import './styles/index.css';
 
 ReactDOM.createRoot(document.getElementById('root')).render(
 	<BrowserRouter>
-		<ProvideAuth>
-			<Routes>
-				<Route path="/" element={<Layout />}>
-					<Route path="/" element={<Home />}></Route>
-					<Route path="register" element={<Register />}></Route>
-					<Route path="login" element={<Login />}></Route>
-					<Route path="admin" element={<Admin />}></Route>
-					<Route path="demo" element={<UseCallabck />}></Route>
-					<Route path="demoFetch" element={<DemoFetch />}></Route>
-					<Route path="SearchPost" element={<SearchPost />}></Route>
-					<Route path="DemoTable" element={<DemoTable />}></Route>
-					<Route path="Item/:id" element={<Item />}></Route>
+		<Provider store={store}>
+			<ProvideAuth>
+				<Routes>
+					<Route path="/" element={<Layout />}>
+						<Route path="/" element={<Home />}></Route>
+						<Route path="register" element={<Register />}></Route>
+						<Route path="login" element={<Login />}></Route>
+						<Route path="admin" element={<Admin />}></Route>
+						<Route path="demo" element={<UseCallabck />}></Route>
+						<Route path="demoFetch" element={<DemoFetch />}></Route>
+						<Route path="SearchPost" element={<SearchPost />}></Route>
+						<Route path="DemoTable" element={<DemoTable />}></Route>
+						<Route path="Item/:id" element={<Item />}></Route>
 
-					<Route
-						path="*"
-						element={
-							<main>
-								<p>Error 404. PAGE NOT FOUND</p>
-							</main>
-						}
-					></Route>
-				</Route>
-			</Routes>
-			<Toaster position="bottom-center" reverseOrder={false} />
-		</ProvideAuth>
+						<Route
+							path="*"
+							element={
+								<main>
+									<p>Error 404. PAGE NOT FOUND</p>
+								</main>
+							}
+						></Route>
+					</Route>
+				</Routes>
+				<Toaster position="bottom-center" reverseOrder={false} />
+			</ProvideAuth>
+		</Provider>
 	</BrowserRouter>
 );

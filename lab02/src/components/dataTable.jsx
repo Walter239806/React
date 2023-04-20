@@ -1,6 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 import { useSortBy, useTable } from 'react-table';
+import Table from 'react-bootstrap/Table';
 import '@fortawesome/fontawesome-free/css/all.min.css';
 
 const Styles = styled.div`
@@ -57,7 +58,7 @@ const DataTable = ({ columns, data, rowClick }) => {
 
 	return (
 		<Styles>
-			<table {...getTableProps}>
+			<Table hover variant="dark" {...getTableProps}>
 				<thead>
 					{headerGroups.map((headerGroup) => (
 						<tr {...headerGroup.getHeaderGroupProps()}>
@@ -98,7 +99,7 @@ const DataTable = ({ columns, data, rowClick }) => {
 						);
 					})}
 				</tbody>
-			</table>
+			</Table>
 		</Styles>
 	);
 };

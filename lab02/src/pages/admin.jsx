@@ -5,15 +5,18 @@ import { useAuth } from '../context/Session';
 import { useFetch } from '../hooks/Fetch';
 import DataTable from '../components/dataTable';
 import Alert from '../components/loginAlert';
+import InputGroup from 'react-bootstrap/InputGroup';
+
 import useAxios from '../hooks/Axios';
 
 export default function Page() {
 	const navigate = useNavigate();
 	const { session } = useAuth();
 	const [searchValue, setSearchValue] = useState('');
-	// const { data, isLoading, isError, runFetch } = useFetch();
+	const [loading, setLoading] = useState(true);
+	const { data, isLoading, isError, runFetch } = useFetch();
 	const [datafiltered, setDataFiltered] = useState([]);
-	const { data, isLoading, isError, runAxios } = useAxios();
+	// const { data, isLoading, isError, runAxiosGet } = useAxios();
 
 	const rowClick = (row) => {
 		navigate(`/item/id:${row}`);
@@ -46,9 +49,24 @@ export default function Page() {
 		[]
 	);
 
+	const Table = () => {
+		return (
+			<>
+				<Form.Control
+					placeholder="Search by title"
+					type="text"
+					id="search"
+					value={searchValue}
+					onChange={(e) => setSearchValue(e.target.value)}
+				/>
+				<DataTable columns={columns} data={datafiltered} rowClick={rowClick} />
+			</>
+		);
+	};
+
 	useEffect(() => {
-		runAxios('/post/readAll');
-	}, []);
+		runFetch(`http://20.228.195.178:3001/post/readAll`);
+	}, [session]);
 
 	useEffect(() => {
 		if (searchValue.length >= 3) {
@@ -61,23 +79,7 @@ export default function Page() {
 
 	return (
 		<>
-			{session?.state ? (
-				<>
-					<input
-						type="text"
-						id="search"
-						value={searchValue}
-						onChange={(e) => setSearchValue(e.target.value)}
-					></input>
-					<DataTable
-						columns={columns}
-						data={datafiltered}
-						rowClick={rowClick}
-					/>
-				</>
-			) : (
-				<Alert />
-			)}
+			{isLoading ? <h1>Loading...</h1> : session?.state ? <Table /> : <Alert />}
 		</>
 	);
 }
