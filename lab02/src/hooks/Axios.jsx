@@ -13,19 +13,30 @@ const useAxios = (initialData = []) => {
 		baseURL: 'http://20.228.195.178:3001',
 		headers: {
 			'Content-Type': 'application/json',
+			Authorization: `Bearer ${session.token}`,
 			'Access-Control-Allow-Origin-': '*',
 			Accept: '*/*',
 		},
 		timeout: 30000,
 	});
 
-	const runAxios = async (url, query) => {
+	// apiClient.interceptors.request.use((request) => {
+	// 	if (session.token)
+	// 		request.headers.Authorization = `Bearer ${session.token}`;
+	// });
+
+	// apiClient.interceptors.response.use((response) => {
+	// 	if (response.data.erros) console.log('err', response);
+	// });
+
+	const runAxiosGet = async (url, query) => {
 		setIsLoading(true);
 		setIsError(false);
 		apiClient
-			.get(url)
+			.get(url) //demo de get con axios
 			.then((response) => {
 				console.log('response', response);
+				setData(response.data);
 			})
 			.catch((error) => {
 				setIsError(true);
@@ -34,7 +45,7 @@ const useAxios = (initialData = []) => {
 			.finally(() => setIsLoading(false));
 	};
 
-	return { data, isLoading, isError, runAxios };
+	return { data, isLoading, isError, runAxiosGet };
 };
 
 export default useAxios;

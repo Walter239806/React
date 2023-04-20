@@ -25,7 +25,7 @@ export default function Layout() {
 					</Nav>
 				</Container>
 			</Navbar>
-			<Container className="mt-3">
+			<Container className="mt-3 h-100">
 				<Outlet />
 			</Container>
 		</>

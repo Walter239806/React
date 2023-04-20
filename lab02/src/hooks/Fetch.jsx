@@ -19,7 +19,7 @@ export const useFetch = (initialData = []) => {
 					headers: {
 						'Content-Type': 'application/json',
 						Authorization: `Bearer ${session.token}`,
-					}
+					},
 				}).then((res) => res.json());
 				console.log('Bearer  😊😊😊', result);
 				setData(result);
