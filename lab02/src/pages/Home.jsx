@@ -4,19 +4,41 @@ import InputGroup from 'react-bootstrap/InputGroup';
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 import ListGroup from 'react-bootstrap/ListGroup';
-import { useFetch } from '../hooks/Fetch';
-import { setNum } from '../store/postSlice';
-import { useSelector, useDispatch } from 'react-redux';
+import { postStore } from '../store/zu-post';
+// import { useFetch } from '../hooks/Fetch';
+// import { setNum, readAll } from '../store/postSlice';
+// import { useSelector, useDispatch } from 'react-redux';
 
 export default function Page() {
-	const { data, isLoading, isError, runFetch } = useFetch();
-	const { num } = useSelector((state) => state.postSlice);
-	const dispatch = useDispatch();
+	// CUSTOM HOOK DEMO:
+	// const { data, isLoading, isError, runFetch } = useFetch();
+
+	//REDUX DEMO:
+
+	// const { num } = useSelector((state) => state.postSlice);
+
+	// const dispatch = useDispatch();
+
+	// const {
+	// 	isLoading,
+	// 	isError,
+	// 	errorMessage,
+	// 	list: data,
+	// } = useSelector((state) => state.postSlice);
+
+	// ZUSTAND DEMO:
+	const { list: data, isLoading, isError, readAll } = postStore();
 
 	useEffect(() => {
-		runFetch(`http://20.228.195.178:3001/post/readAll`);
-		console.log('setNum', num);
-		dispatch(setNum(3));
+		//Hook demo:
+		// runFetch(`http://20.228.195.178:3001/post/readAll`);
+
+		//Redux demo:
+		// dispatch(setNum(3));
+		// dispatch(readAll());
+
+		//Zustand demo:
+		readAll();
 	}, []);
 
 	const List = () => {
@@ -38,7 +60,7 @@ export default function Page() {
 
 	return (
 		<>
-			{isError && <div>Ha ocurrido un error</div>}
+			{/* {isError && <div>{errorMessage}</div>} */}
 			<Form>
 				<Form.Group>
 					{isLoading ? (
