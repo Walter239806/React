@@ -29,11 +29,11 @@ const useAxios = (initialData = []) => {
 	// 	if (response.data.erros) console.log('err', response);
 	// });
 
-	const runAxiosGet = async (url, query) => {
+	const runAxiosGet = async (url, method = 'get') => {
 		setIsLoading(true);
 		setIsError(false);
-		apiClient
-			.get(url) //demo de get con axios
+
+		apiClient[method](url) //demo de get con axios
 			.then((response) => {
 				console.log('response', response);
 				setData(response.data);
